@@ -29,7 +29,7 @@ namespace CurrencyExchanger
                 string exchangeRateKey = currencyFrom + "_" + currencyTo;
                 if (jsonObject != null && jsonObject.ContainsKey(exchangeRateKey))
                 {
-                    excahngeRateRetrievedCallback((float)jsonObject[exchangeRateKey]);
+                    excahngeRateRetrievedCallback(float.Parse(jsonObject[exchangeRateKey].ToString()));
                 }
                 else
                 {
@@ -52,7 +52,7 @@ namespace CurrencyExchanger
                     { "key", currencyExchangerApiKey },
                     { "from", currencyFrom },
                     { "to", currencyTo },
-                    { "date", date.ToShortDateString() }
+                    { "date", date.ToString("yyyy-MM-dd") }
                 }
             };
 
@@ -62,7 +62,9 @@ namespace CurrencyExchanger
                 string exchangeRateKey = currencyFrom + "_" + currencyTo;
                 if (jsonObject != null && jsonObject.ContainsKey(exchangeRateKey))
                 {
-                    excahngeRateRetrievedCallback((float)jsonObject[exchangeRateKey]);
+                    jsonObject = jsonObject[exchangeRateKey] as JsonObject;
+                    foreach(var pair in jsonObject)
+                        excahngeRateRetrievedCallback(float.Parse(pair.Value.ToString()));
                 }
                 else
                 {
