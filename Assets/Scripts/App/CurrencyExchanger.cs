@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace CurrencyExchanger
 {
@@ -12,9 +13,12 @@ namespace CurrencyExchanger
             get;
             private set;
         }
+        public void Convert(string currencyFrom, string currencyTo, int amount, Action<float> exhangeRetrievedCallback, Action<string> errorCallback)
+        {
+            backEndProvider.GetExchangeRateFor(currencyFrom, currencyTo, (exchangeRate) => exhangeRetrievedCallback(exchangeRate * amount), errorCallback);
+        }
 
-
-        public CurrencyExchanger(IBackEndProvider backEndProvider, System.Action systemReadyCallback, System.Action<string> initializationErrorCallback)
+        public CurrencyExchanger(IBackEndProvider backEndProvider, Action systemReadyCallback, Action<string> initializationErrorCallback)
         {
             Currencies = null;
             this.backEndProvider = backEndProvider;
@@ -29,6 +33,7 @@ namespace CurrencyExchanger
         }
 
         private IBackEndProvider backEndProvider;
-        private System.Action systemReadyCallback;
+        private Action systemReadyCallback;
+
     }
 }
