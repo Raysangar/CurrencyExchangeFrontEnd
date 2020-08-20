@@ -1,7 +1,8 @@
 {
-    "name": "App",
+    "name": "Core",
     "references": [
-        "GUID:0da6d172d18a54e4389d0dce1e1ffdf2"
+        "PlayFab",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

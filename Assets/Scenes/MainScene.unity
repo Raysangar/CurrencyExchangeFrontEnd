@@ -3393,7 +3393,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1214509297}
   toggleTransition: 1
   graphic: {fileID: 1234036263}
-  m_Group: {fileID: 0}
+  m_Group: {fileID: 1981060036}
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -4931,8 +4931,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1183098350}
+  - component: {fileID: 1183098352}
+  - component: {fileID: 1183098351}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Managers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4952,6 +4954,42 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1183098351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183098349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16aee5e20dcd6cf46b5d9a21e603522f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingText: {fileID: 22900140}
+  mainPanel: {fileID: 974994622}
+  currencyFrom: {fileID: 477654022}
+  currencyTo: {fileID: 96433637}
+  amount: {fileID: 1228560899}
+  specifyDateToggle: {fileID: 773128271}
+  day: {fileID: 965585383}
+  month: {fileID: 123998241}
+  year: {fileID: 1445109323}
+  convertButton: {fileID: 1778059828}
+  result: {fileID: 912528323}
+--- !u!114 &1183098352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183098349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63a544c7e3bb3204091718424ff92a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiManager: {fileID: 1183098351}
 --- !u!1 &1214509295
 GameObject:
   m_ObjectHideFlags: 0
@@ -8143,18 +8181,19 @@ RectTransform:
   m_AnchoredPosition: {x: 95.849976, y: 0}
   m_SizeDelta: {x: 508.9999, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!225 &1981060036
-CanvasGroup:
+--- !u!114 &1981060036
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1981060034}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AllowSwitchOff: 0
 --- !u!1 &1993944165
 GameObject:
   m_ObjectHideFlags: 0
