@@ -7,7 +7,7 @@ namespace CurrencyExchanger
     {
         void Awake()
         {
-            currencyExchanger = new CurrencyExchanger(new PlayfabBackEndProvider(), OnSystemReadyCallback, OnSystemInitializationError);
+            currencyExchanger = new CurrencyExchanger(new PlayfabBackEndProvider(keys.PlayfabKey, keys.CurrenchExchangeApiKey), OnSystemReadyCallback, OnSystemInitializationError);
         }
 
         private void OnSystemReadyCallback()
@@ -21,6 +21,7 @@ namespace CurrencyExchanger
         }
 
         [SerializeField] UIManager uiManager;
+        [SerializeField] KeysScriptableObject keys;
 
         private CurrencyExchanger currencyExchanger;
     }

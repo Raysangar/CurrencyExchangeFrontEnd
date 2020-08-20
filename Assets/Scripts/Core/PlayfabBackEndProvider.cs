@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using PlayFab;
+using PlayFab.Json;
 using PlayFab.ServerModels;
 using UnityEngine;
 
@@ -13,8 +14,10 @@ namespace CurrencyExchanger
             var request = new ExecuteCloudScriptServerRequest()
             {
                 FunctionName = "GetExchangeRate",
+                PlayFabId = "FF68592653210042",
                 FunctionParameter = new Dictionary<string, string>()
                 {
+                    { "key", currencyExchangerApiKey },
                     { "from", currencyFrom },
                     { "to", currencyTo },
                 }
@@ -22,7 +25,17 @@ namespace CurrencyExchanger
 
             PlayFabServerAPI.ExecuteCloudScript(request, (result) =>
             {
-                excahngeRateRetrievedCallback((float) result.FunctionResult);
+                var jsonObject = result.FunctionResult as JsonObject;
+                string exchangeRateKey = currencyFrom + "_" + currencyTo;
+                if (jsonObject != null && jsonObject.ContainsKey(exchangeRateKey))
+                {
+                    excahngeRateRetrievedCallback((float)jsonObject[exchangeRateKey]);
+                }
+                else
+                {
+                    errorCallback("Couldn't retrieve exchange rate from API: " + result.FunctionResult.ToString());
+                }
+
             }, (error) => {
                 errorCallback(error.ErrorMessage);
             });
@@ -33,8 +46,10 @@ namespace CurrencyExchanger
             var request = new ExecuteCloudScriptServerRequest()
             {
                 FunctionName = "GetExchangeRate",
+                PlayFabId = "FF68592653210042",
                 FunctionParameter = new Dictionary<string, string>()
                 {
+                    { "key", currencyExchangerApiKey },
                     { "from", currencyFrom },
                     { "to", currencyTo },
                     { "date", date.ToShortDateString() }
@@ -43,7 +58,17 @@ namespace CurrencyExchanger
 
             PlayFabServerAPI.ExecuteCloudScript(request, (result) =>
             {
-                excahngeRateRetrievedCallback((float)result.FunctionResult);
+                var jsonObject = result.FunctionResult as JsonObject;
+                string exchangeRateKey = currencyFrom + "_" + currencyTo;
+                if (jsonObject != null && jsonObject.ContainsKey(exchangeRateKey))
+                {
+                    excahngeRateRetrievedCallback((float)jsonObject[exchangeRateKey]);
+                }
+                else
+                {
+                    errorCallback("Couldn't retrieve exchange rate from API: " + result.FunctionResult.ToString());
+                }
+
             }, (error) => {
                 errorCallback(error.ErrorMessage);
             });
@@ -53,16 +78,47 @@ namespace CurrencyExchanger
         {
             var request = new ExecuteCloudScriptServerRequest()
             {
-                FunctionName = "GetCurrencyList"
+                FunctionName = "GetCurrencyList",
+                PlayFabId = playfabKey,
+                FunctionParameter = new Dictionary<string, string>()
+                {
+                    { "key", currencyExchangerApiKey },
+                }
             };
 
             PlayFabServerAPI.ExecuteCloudScript(request, (result) =>
             {
-                var list = JsonUtility.FromJson<List<Currency>>(result.FunctionResult.ToString());
-                currenciesRetrievedCallback(list);
+                var list = new List<Currency>();
+                var jsonObject = result.FunctionResult as JsonObject;
+                if (jsonObject != null && jsonObject.ContainsKey("results"))
+                {
+                    jsonObject = jsonObject["results"] as JsonObject;
+                    foreach (var pair in jsonObject)
+                    {
+                        list.Add(new Currency
+                        {
+                            Code = pair.Key,
+                            Name = (pair.Value as JsonObject)["currencyName"] as string
+                        });
+                    }
+                    currenciesRetrievedCallback(list);
+                }
+                else
+                {
+                    errorCallback("Couldn't retrieve currency list from API: " + result.FunctionResult.ToString());
+                }
             }, (error) => {
                 errorCallback(error.ErrorMessage);
             });
         }
+
+        public PlayfabBackEndProvider(string playfabKey, string currencyExchangerApiKey)
+        {
+            this.playfabKey = playfabKey;
+            this.currencyExchangerApiKey = currencyExchangerApiKey;
+        }
+
+        private string playfabKey;
+        private string currencyExchangerApiKey;
     }
 }
