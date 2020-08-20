@@ -7,5 +7,6 @@ namespace CurrencyExchanger
     {
         void RetrieveCurrencies(Action<List<Currency>> currenciesRetrievedCallback, Action<string> errorCallback);
         void GetExchangeRateFor(string currencyFrom, string currencyTo, Action<float> excahngeRateRetrievedCallback, Action<string> errorCallback);
+        void GetExchangeRateFor(string currencyFrom, string currencyTo, DateTime date, Action<float> excahngeRateRetrievedCallback, Action<string> errorCallback);
     }
 }

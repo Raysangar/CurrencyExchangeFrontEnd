@@ -18,6 +18,11 @@ namespace CurrencyExchanger
             backEndProvider.GetExchangeRateFor(currencyFrom, currencyTo, (exchangeRate) => exhangeRetrievedCallback(exchangeRate * amount), errorCallback);
         }
 
+        public void Convert(string currencyFrom, string currencyTo, int amount, DateTime date, Action<float> exhangeRetrievedCallback, Action<string> errorCallback)
+        {
+            backEndProvider.GetExchangeRateFor(currencyFrom, currencyTo, date, (exchangeRate) => exhangeRetrievedCallback(exchangeRate * amount), errorCallback);
+        }
+
         public CurrencyExchanger(IBackEndProvider backEndProvider, Action systemReadyCallback, Action<string> initializationErrorCallback)
         {
             Currencies = null;

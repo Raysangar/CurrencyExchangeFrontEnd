@@ -40,6 +40,20 @@ namespace Tests
             Assert.AreEqual(10, result, 0.001);
         }
 
+        [Test]
+        public void InterfaceReturnCurrencyExchangeFromSpecificDate()
+        {
+            var backEndProviderMock = GetSuccesfullBackEndProvider();
+            backEndProviderMock.Setup(c => c.GetExchangeRateFor(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<Action<float>>(), It.IsAny<Action<string>>()))
+                .Callback((string currencyFrom, string currencyTo, DateTime date, Action<float> currencyExchangeRetrievedCallback, Action<string> errorCallback) => currencyExchangeRetrievedCallback(1));
+
+            var currencyExchange = new CurrencyExchanger.CurrencyExchanger(backEndProviderMock.Object, () => { }, (error) => { });
+            float result = 0;
+            currencyExchange.Convert("", "", 10, new DateTime(), (value) => result = value, (error) => { });
+
+            Assert.AreEqual(10, result, 0.001);
+        }
+
         private Mock<IBackEndProvider> GetSuccesfullBackEndProvider()
         {
             var backEndProviderMock = new Mock<IBackEndProvider>();
